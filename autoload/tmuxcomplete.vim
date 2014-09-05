@@ -22,9 +22,14 @@ function! tmuxcomplete#completions(base, capture_args, mode)
     let command .=   ' ' . shellescape(base_pattern)
     let command .=   ' ' . shellescape(list_args)
     let command .=   ' ' . shellescape(a:capture_args)
-    echom command
 
-    let completions = system(command)
+    silent let completions = system(command)
+
+    " Required due to bug calling system() in insert mode
+    if !has('patch-7.4.427')
+        redraw!
+    endif
+
     if v:shell_error != 0
         return []
     endif
