@@ -6,13 +6,15 @@ let s:source = {
             \ 'kind' : 'keyword',
             \ 'mark' : '[tmux]',
             \ 'rank' : 4,
+            \ 'min_pattern_length' :
+            \ g:neocomplcache_auto_completion_start_length,
             \ }
 
 function! s:source.gather_candidates(context)
-    return tmuxcomplete#gather_candidates()
+    return tmuxcomplete#complete(0, a:context.complete_str)
 endfunction
 
-function! neocomplete#sources#tmuxcomplete#define()
+function! neocomplcache#sources#tmuxcomplete#define()
     return s:source
 endfunction
 
